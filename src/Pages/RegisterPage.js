@@ -1,21 +1,14 @@
 import React,{useState, useRef} from 'react'
 import { Button, Checkbox, Form,Message,Icon, Segment } from 'semantic-ui-react'
-import {useLocation} from 'react-router-dom'
-import {useNavigate} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
-function LoginForm(){
+function RegisterPage(){
  const [state, setstate] = useState({username:"",password:""})
- let navigate = useNavigate()
  const passwordRef= useRef()
  const usernameRef= useRef()
 
- if(localStorage.getItem('token')){
-   navigate('/')
- }
- 
-
  async function handleclick(event){
-  const url = `http://localhost:5000/api/login`
+  const url = `http://localhost:5000/api/createUser`
   const options = {
       method: 'POST',
       headers: {
@@ -25,22 +18,18 @@ function LoginForm(){
       //     'Authorization': localStorage.getItem('authorization')
     }
     let query = await fetch(url,options)
-    console.log(query.status)
-    if(query.status!=200){
-      alert("Incorrect credentials")
-    }
-    else{
-      query = await query.json()
-      localStorage.setItem('token', query.token);
-      localStorage.setItem('movieUser',usernameRef.current.value);
-      alert("Sucessfully logged in")
-      navigate('/')  
+    query = await query.json()
+    console.log(query)
+    if(query.successful){
+        console.log("hello")
+        alert("account created")}
             
+    else{
+        alert("Error, please try again")}
  }
-}
   return(
     <div>
-    <Segment compact>Login page</Segment>
+    <Segment compact>Sign Up page</Segment>
       <Form>
         <Form.Field>
           <label >Username</label>
@@ -54,10 +43,10 @@ function LoginForm(){
       </Form>
     <Message attached='bottom' warning>
       <Icon name='help' />
-      Don't Have an account?&nbsp;<a href='/register'>Sign up here</a>&nbsp;instead.
+      Already have an account?&nbsp;<a href='/login'>Login here</a>&nbsp;instead.
     </Message>
     </div>
   )
 }
 
-export default LoginForm
+export default RegisterPage

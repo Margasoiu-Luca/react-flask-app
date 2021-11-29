@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Grid,Segment, Dimmer, Loader, List } from 'semantic-ui-react'
-import GenrePageCard from './GenrePageCard'
-import Tloader from './Tloader';
+import GenrePageCard from '../Components/GenrePageCard'
+import Tloader from '../Components/Tloader';
 import {
     BrowserRouter as Router,
     Switch,

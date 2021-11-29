@@ -6,48 +6,36 @@ import { Container,Grid,Segment,Image, Search } from 'semantic-ui-react'
 import Navbar from './Components/Navbar';
 import MovieCarousel from './Components/MovieCarousel';
 import MovieCard from './Components/MovieCard'
-import FrontPage from './FrontPage';
-import bestwatch from './bestwatch.png'
+import FrontPage from './Pages/FrontPage';
+import bestwatch from './images/bestwatch.png'
 import SearchBar from './Components/SearchBar'
-import CategoryPages from './CategoryPages';
-import {BrowserRouter as Router,Switch, Route,Routes} from 'react-router-dom'
+import CategoryPages from './Pages/CategoryPages';
+import {BrowserRouter as Router,Switch, Route,Routes,Navigate } from 'react-router-dom'
 import MovieCategoryList from './Components/MovieCategoryList'
-import NotFound from './NotFound';
-import GenrePage from './Components/GenrePage';
-import MovieDescPage from './MovieDescPage';
+import NotFound from './Pages/NotFound';
+import GenrePage from './Pages/GenrePage';
+import MovieDescPage from './Pages/MovieDescPage';
 import PersonalPage from './Pages/PersonalPage';
-
-const Users = () => {
-  const data = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Victor Wayne" },
-    { id: 3, name: "Jane Doe" },
-  ];
-
-  return (
-    <div className="users">
-      {data.map((user) => (
-        <div className="user">{user.id}</div>
-      ))}
-    </div>
-  );
-};
-
+import RegisterPage from './Pages/RegisterPage';
+import Review from './Components/Review';
 
 function App(){
-  const [state, setstate] = useState()
+  const [isAuthenticated, userHasAuthenticated] = useState(false);
   return(
   <>
   <Navbar/>
     <Container>
         <Image centered style={{width:'1000px'}} src={bestwatch} />
         <Routes>
-        <Route exact path="/" element={<FrontPage/>}/>
-        <Route exact path="/category" element={<CategoryPages/>}/>
-        <Route path="/category/:id" element={<GenrePage/>}/>
-        <Route path="/movie/:id" element={<MovieDescPage/>}/>
-        <Route path="/personal" element={<PersonalPage/>}/>
-      {/* <Route path="/notFound" element={<NotFound/>}/> */}
+        <Route path='/login' element={<LoginForm/>}/>
+        <Route path='/register' element={<RegisterPage/>}/>
+        <Route exact path="/" element={localStorage.getItem('token')?<FrontPage/>:<Navigate to='/login'/>}/>
+        <Route exact path="/category" element={localStorage.getItem('token')?<CategoryPages/>:<Navigate to='/login'/>}/>
+        <Route path="/category/:id" element={localStorage.getItem('token')?<GenrePage/>:<Navigate to='/login'/>}/>
+        <Route path="/movie/:id" element={localStorage.getItem('token')?<MovieDescPage/>:<Navigate to='/login'/>}/>
+        <Route path="/personal" element={localStorage.getItem('token')?<PersonalPage/>:<Navigate to='/login'/>}/>
+        <Route path='/test' element={<Review/>}/>
+        <Route exact path='/:id' element={<NotFound/>}/>
      </Routes>
     {/* <CategoryPages/> */}
     </Container>

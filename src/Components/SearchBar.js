@@ -56,9 +56,10 @@ function SearchBar() {
       for(let i=  0; i<5; i++){
         moviesInfo=[...moviesInfo, {
           'key':apiSearch[i]['id'],
-          'description':apiSearch[i]['overview'],
+          'description':apiSearch[i]['overview'].substr(0,apiSearch[i]['overview'].indexOf('.')+1),
           'image':`https://image.tmdb.org/t/p/original/${apiSearch[i]['poster_path']}`,
-          'title':apiSearch[i]['title']
+          'title':apiSearch[i]['title'],
+          'href':`/movie/${apiSearch[i]['id']}`
         }]
       }
       console.log(moviesInfo)
@@ -85,8 +86,8 @@ function SearchBar() {
         <Search
           loading={loading}
           onResultSelect={(e, data) =>
-            // console.log(data.result)
-            navigate(`/movie/${data.result.key}`)
+            console.log(data.result)
+            // navigate(`/movie/${data.result.key}`)
           }
           onSearchChange={handleSearchChange}
           results={results}

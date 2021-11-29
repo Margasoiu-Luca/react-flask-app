@@ -1,20 +1,33 @@
 from flask import request, json, Response, jsonify
-
 from models import *
 from auxiliaries import *
+from flask_cors import cross_origin
 
 init_db(db)
 
 def attemptLogin(data):
-    encryptedPass = encodePassword(data['password'])
-    if len(User.query.filter_by(username = data['user'],password = encryptedPass).all())==1:
+    print(data['user'],data['password'])
+    x = User.query.filter_by(username = data['user'],password = data['password']).all()
+    print(x==1)
+    if len(x)==1:
         return True
     return False
 
+@app.route("/api/test")
+def helloWorld():
+  return "Hello, cross-origin-world!"
+
+@app.route("/api/validateToken", methods=['POST'])
+def validate():
+    data = request.get_json()
+    print(data['token'])
+    values=decodeToken(data['token'])
+    valid= attemptLogin({"user":values[0],"password":values[1]})
+    return str(valid)
 
 
-
-@app.route('/createUser',methods = ['POST', 'GET'])
+@app.route('/api/createUser',methods = ['POST', 'GET'])
+@cross_origin()
 def register():
     if request.method == 'GET':
         return {'error':'Method Not avalabile'}
@@ -30,20 +43,21 @@ def register():
             d=json.dumps({"error":str(e)})
             print(d)
             return Response(d, status=500)
-        return Response(json.dumps({'sucessful':'item added successfully'}),status=200)
+        return Response(json.dumps({'successful':'item added successfully'}),status=200)
   
-@app.route('/login',methods = ['POST'])
+@app.route('/api/login',methods = ['POST'])
 def login():
     data = request.get_json()
     if checkValidUsersRequest(data):
         return Response(json.dumps({'error':"the json format is incorrect"}),status=400)
-    if not attemptLogin(data):
+    encryptedPass = encodePassword(data['password'])
+    if not attemptLogin({"user":data['user'],"password":encryptedPass}):
         return Response(json.dumps({'unauthorised':'incorrect credentials'}),status=401)
     token = createToken(data)
     return Response(json.dumps({'token':str(token)}),status=200)
 
 
-@app.route('/review',methods = ['POST'])
+@app.route('/api/review',methods = ['POST'])
 def addReview():
     if request.method == 'GET':
         return {'error':'Method Not avalabile'}
@@ -61,7 +75,7 @@ def addReview():
         return Response(d, status=500)
     return Response(json.dumps({'sucessful':'review added successfully'}),status=200)
 
-@app.route('/review/<movie_id>', methods = ['GET'])
+@app.route('/api/review/<movie_id>', methods = ['GET'])
 def findReviews(movie_id):
     if request.method == 'POST':
         return {'error':'Method Not avalabile'}

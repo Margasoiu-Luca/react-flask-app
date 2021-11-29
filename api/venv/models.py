@@ -2,6 +2,7 @@ from flask import Flask
 import flask
 from flask_sqlalchemy import SQLAlchemy
 from dataclasses import dataclass
+from flask_cors import CORS
 
 import os
 # temp_db = 
@@ -11,6 +12,9 @@ import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite3.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =  False
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+CORS(app)
 
 db = SQLAlchemy(app)
 

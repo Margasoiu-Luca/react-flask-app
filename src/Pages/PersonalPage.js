@@ -12,7 +12,7 @@ export default function PersonalPage() {
     return (
         <List divided>
             <List.Item>
-                <Header textAlign='center' as='h1'>guy's account</Header>
+                <Header textAlign='center' as='h1'>{localStorage.getItem('movieUser')?`${localStorage.getItem('movieUser')}'s Account`:`Your account`}</Header>
             </List.Item>
             <List.Item>
                 <Segment compact color='yellow' inverted>

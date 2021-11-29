@@ -16,14 +16,18 @@ def init_db(db):
 # sendToken
 
 def checkValidUsersRequest(data):
-    print('user' in data and 'password' in data)
+    # print('user' in data and 'password' in data)
     if not ('user' in data and 'password' in data):
         return {'error':"the json format is incorrect"}
     
 def createToken(data):
-    toBeEncoded = str(data['user']+encodePassword(data['password'])).encode("utf-8")
+    toBeEncoded = str(data['user']+'////'+encodePassword(data['password'])).encode("utf-8")
     encoded = base64.b64encode(toBeEncoded)
+    encoded = encoded.decode("utf-8")
     print(encoded)
     return encoded
-# def decodeToken(token):
-#     decoded
+def decodeToken(token):
+    temp=token.encode('utf-8')
+    decoded=base64.decodebytes(temp)
+    values=decoded.decode().split('////')
+    return values
