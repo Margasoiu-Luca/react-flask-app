@@ -63,10 +63,10 @@ def addReview():
         return {'error':'Method Not avalabile'}
         
     data = request.get_json()
-    if not ('text' in data and 'rating' in data and 'user_id' in data and 'to_movie' in data ):
+    if not ('text' in data and 'rating' in data and 'user_name' in data and 'to_movie' in data ):
         return Response(json.dumps({'error':'missing data'}),status=400) 
     try:
-        review = Review(text=data['text'],rating=data['rating'],user_id=data['user_id'],to_movie=data['to_movie'])
+        review = Review(text=data['text'],rating=data['rating'],user_name=data['user_name'],to_movie=data['to_movie'])
         db.session.add(review)
         db.session.commit()
     except Exception as e :
@@ -81,5 +81,5 @@ def findReviews(movie_id):
         return {'error':'Method Not avalabile'}
     search = Review.query.filter_by(to_movie = movie_id).all()
     if not search:
-        return Response(json.dumps({'error':'no reviews found for movie id'}),status=400)
+        return Response(json.dumps({'no content':'no reviews found for movie id'}),status=204)
     return jsonify(search)

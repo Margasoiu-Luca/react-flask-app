@@ -29,13 +29,13 @@ class Review(db.Model):
     id:int
     text:str
     rating:int
-    user_id:int
+    user_name:str
     to_movie:int
 
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(80), unique=False, nullable=False)
+    text = db.Column(db.String(200), unique=False, nullable=False)
     rating = db.Column(db.Integer, unique=False, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_name = db.Column(db.String(80), db.ForeignKey('user.username'))
     to_movie = db.Column(db.Integer,nullable=False)
 
 
