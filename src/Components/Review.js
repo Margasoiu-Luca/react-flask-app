@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button, Checkbox, Form,Message,Icon, Segment,List, Rating, Header  } from 'semantic-ui-react'
 
+
+//This component represents a review. It is used n the 
 export default function Review(props) {
     console.log(props.data.rating)
     const r=parseInt(props.data.rating)

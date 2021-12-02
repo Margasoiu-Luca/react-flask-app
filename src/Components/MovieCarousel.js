@@ -1,6 +1,5 @@
 import React from 'react'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import './MovieCarousel.css'
 import { Carousel } from 'react-responsive-carousel';
 import { useNavigate, BrowserRouter } from "react-router-dom";
 
@@ -9,7 +8,7 @@ import { useNavigate, BrowserRouter } from "react-router-dom";
 
 
 
-
+//
 export default function MovieCarousel(props) {
     function goTo(e,data){
         console.log(data)

@@ -14,12 +14,13 @@ export default function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
 
+  //On log out remove the localstorage token 
   function logOut(){
     localStorage.removeItem('token');
     console.log("hello")
     navigate('/login')
   }
-
+  //Function that adds a sign out option if a user is logged in
   function signStatus(){
     console.log(location.pathname)
     if(localStorage.getItem('token') && location.pathname!=='/login'){
@@ -43,10 +44,12 @@ export default function Navbar() {
         <Menu.Item>
           <SearchBar></SearchBar>
         </Menu.Item>
+        {/* This function returns another Menu.Item with a Sign Out value and reference. If a user is not logged on this is not generated */}
         {signStatus()}
 
         <Menu.Item position='right'
           name='user'
+          // if the localstorage user exists, then add that as a value otherwise simply add a generic 'user'
           href='/personal'>{localStorage.getItem('movieUser')?localStorage.getItem('movieUser'):'user'}
           <Icon name='user'/>
         </Menu.Item>

@@ -16,7 +16,9 @@ import animation from '../images/Animation.png'
 import adventure from '../images/Adventure.png'
 import fantasy from '../images/Fantasy.png'
 
-
+//This Component renders the endpoint for the Category types page
+//It has two parts: a pre-defined set of images with a link to their genre movies page
+//A second list of dynamically generated list of genres
 export default function CategoryPages() {
     return (
         <Container>
@@ -68,6 +70,7 @@ export default function CategoryPages() {
             </Grid.Column>
 
             <Grid.Column>   
+                {/* This MovieCategoryList is generated through the movie database api */}
                 <MovieCategoryList/>
             </Grid.Column>
         </Grid></Container>

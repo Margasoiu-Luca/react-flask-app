@@ -2,8 +2,13 @@ from flask import request, json, Response, jsonify
 from models import *
 from auxiliaries import *
 from flask_cors import cross_origin
+#Cors is used for cross-origin applications 
+#Without including it there would be errors when running the applications
+
 
 init_db(db)
+
+#This method verifies if the a user exists with the a specific username and password
 
 def attemptLogin(data):
     print(data['user'],data['password'])
@@ -17,6 +22,10 @@ def attemptLogin(data):
 def helloWorld():
   return "Hello, cross-origin-world!"
 
+
+#This method attemps to validate a token by:
+#1. Decoding it from base64 
+#2. Attemps to log in with the values from base64 string. Returns true if ok false if not
 @app.route("/api/validateToken", methods=['POST'])
 def validate():
     data = request.get_json()
@@ -25,14 +34,16 @@ def validate():
     valid= attemptLogin({"user":values[0],"password":values[1]})
     return str(valid)
 
-
+#Method to create a user
 @app.route('/api/createUser',methods = ['POST', 'GET'])
 @cross_origin()
 def register():
+    #Stop if method is get
     if request.method == 'GET':
         return {'error':'Method Not avalabile'}
     elif request.method == 'POST':
         request_data = request.get_json()
+        #Check if request_data has 'user' and 'password'
         if checkValidUsersRequest(request_data):
             return Response(json.dumps({'error':'the json format is incorrect'}),status=400)
         try:
@@ -45,6 +56,8 @@ def register():
             return Response(d, status=500)
         return Response(json.dumps({'successful':'item added successfully'}),status=200)
   
+
+
 @app.route('/api/login',methods = ['POST'])
 def login():
     data = request.get_json()

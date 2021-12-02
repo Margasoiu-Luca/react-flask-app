@@ -1,3 +1,8 @@
+//This component ended up as unused
+//It was supposed to be a componnet to contain a recommended movie based on the movie you are looking at 
+
+
+
 import React from 'react'
 import { Card, Icon, Rating } from 'semantic-ui-react'
 

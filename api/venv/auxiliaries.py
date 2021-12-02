@@ -1,11 +1,15 @@
 import os
 import hashlib
 import base64
+
+# function that encodes password. Self explanatory
 def encodePassword(password):
     encoded_str = password.encode()
     sha_3_encoded = hashlib.sha3_256(encoded_str)
     return sha_3_encoded.hexdigest()
 
+
+#This function creates the database file if it doesnt exist, and it also intialises andy uninitialised tables in the database file
 def init_db(db):
     db.create_all()
     if not os.path.isfile('./sqlite3.db'):
@@ -13,8 +17,8 @@ def init_db(db):
         db.create_all()
         print("Database did not exist, created")
 
-# sendToken
 
+#This function checks if the a login
 def checkValidUsersRequest(data):
     # print('user' in data and 'password' in data)
     if not ('user' in data and 'password' in data):

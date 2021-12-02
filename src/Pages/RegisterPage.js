@@ -8,6 +8,10 @@ function RegisterPage(){
  const usernameRef= useRef()
 
  async function handleclick(event){
+  //Description of the http request on the api
+  //For this specific method, the request is a POST which attempts to register a user
+  //If it is sucessfull, returns http status code 200 and alerts the user this was the case
+  //If not alerts the user it was not sucessful
   const url = `http://localhost:5000/api/createUser`
   const options = {
       method: 'POST',
@@ -39,6 +43,7 @@ function RegisterPage(){
           <label>Password</label>
           <input ref={passwordRef} type="password" placeholder='Password' />
         </Form.Field>
+        {/* This onclick callback handles the functionality of the page */}
         <Button onClick={handleclick} type='submit'>Submit</Button>
       </Form>
     <Message attached='bottom' warning>

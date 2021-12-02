@@ -9,6 +9,10 @@ import {
   Button,
 } from "semantic-ui-react";
 
+
+//This component is the component in which it user inputs and submits a review togehter witha  rating
+//This is also the component in which the information is sent and validated and stored in the database
+
 export default function ReviewInput(params) {
   let curRating = useRef();
   let reviewText = useRef();

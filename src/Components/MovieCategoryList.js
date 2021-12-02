@@ -13,6 +13,8 @@ import 'semantic-ui-css/semantic.min.css'
 // }
 // listItems 
 
+
+//This function dynamically generates a list of genres to be added to a list element
 export default function MovieCategoryList() {
     const [genres, setGenres] = useState([])
     useEffect(() => {
@@ -28,6 +30,7 @@ export default function MovieCategoryList() {
         <Segment compact inverted color={"yellow"}>
             <List bulleted>
                 <List.Header>All genres</List.Header>
+                {/*  */}
                 {
                     genres.map(genre =>(
                         <List.Item key={genre.id} href={`/category/${genre.id}+${genre.name}`}>{genre.name}</List.Item>

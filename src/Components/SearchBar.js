@@ -6,6 +6,9 @@ import api_key from '../api_key'
 import { useNavigate, BrowserRouter } from "react-router-dom";
 
 
+//Initial state 
+//loading - controls a spinner on the right 
+//results - when set a value, creates selectable components below the search bar
 
 const initialState = {
   loading: false,
@@ -14,7 +17,7 @@ const initialState = {
 }
 
 
-
+//This reducer  
 function exampleReducer(state, action) {
   switch (action.type) {
     case 'CLEAN_QUERY':
@@ -33,7 +36,11 @@ function exampleReducer(state, action) {
 
 function SearchBar() {
   const navigate = useNavigate()
+  //The reducer function is simillar to the useState hook as it sets a default function and a reducer which is called through the second element of the deconstructed arrayy 
+  //This is important because the search bar from semantic ui uses a specific set of queries in order to work
   const [state, dispatch] = React.useReducer(exampleReducer, initialState)
+  //References to the state that are used to output the value
+  //Optional but helpful as to not access the state every time
   const { loading, results, value } = state
 
   const timeoutRef = React.useRef()
@@ -47,13 +54,15 @@ function SearchBar() {
         dispatch({ type: 'CLEAN_QUERY' })
         return
       }
+      //Search the movie database api with the current value inputted in the search bar and in the same line jsonify the data
       let apiSearch = await (await fetch(`
       https://api.themoviedb.org/3/search/movie?api_key=d0110b617d68ddb4f3c453cbdf800606&language=en-US&query=${data.value}&page=1&include_adult=false`)).json()
-      console.log(apiSearch)
+      //from that, select the results aka the movies
       apiSearch = apiSearch['results']
-      console.log(apiSearch)
+      //create a temporary array wich stores information about movies
       let moviesInfo=[]
       for(let i=  0; i<5; i++){
+        //Spread operator tells js here to add to this array the previous values as well as the new one
         moviesInfo=[...moviesInfo, {
           'key':apiSearch[i]['id'],
           'description':apiSearch[i]['overview'].substr(0,apiSearch[i]['overview'].indexOf('.')+1),
@@ -64,9 +73,10 @@ function SearchBar() {
       }
       console.log(moviesInfo)
 
-      const re = new RegExp(_.escapeRegExp(data.value), 'i')
-      const isMatch = (result) => re.test(result.title)
-
+      // const re = new RegExp(_.escapeRegExp(data.value), 'i')
+      // const isMatch = (result) => re.test(result.title)
+      
+      //on this dispatch, the results are set, therefore they will be shown to the user
       dispatch({
         type: 'FINISH_SEARCH',
         results: moviesInfo,

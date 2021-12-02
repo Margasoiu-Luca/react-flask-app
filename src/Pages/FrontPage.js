@@ -8,10 +8,11 @@ const resource='https://api.themoviedb.org/3/discover/movie?api_key=d0110b617d68
 
 
 function postMovies(x){
+  //If http request not yet solved, render a loader
   console.log(x)
   if(!x)
     return(<Tloader/>)
-    
+  //Otherwise go to the moviecarousel with the movies that are to be added to the carousel as react parameters
   return(<MovieCarousel movies={x}style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}/>)
 
 }
@@ -22,6 +23,7 @@ export default function FrontPage() {
 
 
   useEffect(() => {  async function fetchMyAPI() {
+    //Fetch the resource for the most popular movies 
     let response = await fetch(resource)
     response = await response.json()
     setValues(response.results)
@@ -31,6 +33,7 @@ export default function FrontPage() {
 
   return (
     <>
+    
     {postMovies(values)}
     </>
     )
